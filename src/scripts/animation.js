@@ -30,26 +30,11 @@ updateProgress();
 
 const replayButton = document.getElementById("replayAnimation");
 const revealTargets = Array.from(document.querySelectorAll("[data-reveal]"));
-const puzzleOffsets = [
-    { x: -90, y: -70, rotation: -12 },
-    { x: 80, y: -85, rotation: 10 },
-    { x: -75, y: 90, rotation: 9 },
-    { x: 95, y: 75, rotation: -11 },
-    { x: 0, y: -110, rotation: 7 },
-    { x: 0, y: 100, rotation: -8 },
-];
 const prefersReducedMotion = window.matchMedia(
     "(prefers-reduced-motion: reduce)",
 ).matches;
 
 if (revealTargets.length && !prefersReducedMotion) {
-    revealTargets.forEach((target, index) => {
-        const offset = puzzleOffsets[index % puzzleOffsets.length];
-        target.style.setProperty("--puzzle-x", `${offset.x}px`);
-        target.style.setProperty("--puzzle-y", `${offset.y}px`);
-        target.style.setProperty("--puzzle-rotation", `${offset.rotation}deg`);
-    });
-
     const revealObserver = new IntersectionObserver(
         (entries, observer) => {
             entries.forEach((entry) => {
@@ -120,6 +105,38 @@ themeButton?.addEventListener("click", () => {
     const isDark = document.documentElement.classList.toggle("dark");
     localStorage.setItem("theme", isDark ? "dark" : "light");
     updateThemeButton(isDark);
-    themeButton.classList.remove("theme-toggle--flip");
-    requestAnimationFrame(() => themeButton.classList.add("theme-toggle--flip"));
 });
+
+const navigationLinks = Array.from(
+    document.querySelectorAll('nav a[href^="#"]'),
+);
+const navigationSections = navigationLinks
+    .map((link) => document.querySelector(link.getAttribute("href")))
+    .filter((section) => section instanceof HTMLElement);
+
+if (navigationSections.length) {
+    const navigationObserver = new IntersectionObserver(
+        (entries) => {
+            const activeEntry = entries
+                .filter((entry) => entry.isIntersecting)
+                .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+
+            if (!activeEntry) {
+                return;
+            }
+
+            navigationLinks.forEach((link) => {
+                if (link.hash === `#${activeEntry.target.id}`) {
+                    link.setAttribute("aria-current", "location");
+                } else {
+                    link.removeAttribute("aria-current");
+                }
+            });
+        },
+        { rootMargin: "-30% 0px -60% 0px" },
+    );
+
+    navigationSections.forEach((section) =>
+        navigationObserver.observe(section),
+    );
+}

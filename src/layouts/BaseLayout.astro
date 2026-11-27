@@ -11,20 +11,19 @@ const name = "Jive Miguel Dequito";
     <title>{name}</title>
 </head>
 
-<body class="portfolio-reveal bg-white text-black dark:bg-gray-950 dark:text-white">
+<body class="portfolio-reveal min-h-screen bg-white text-black dark:bg-black dark:text-white">
 
     <!-- HEADER -->
-    <header class="flex items-center justify-between bg-slate-200 px-4 py-3 dark:bg-gray-800">
+    <header class="silver-accent-border flex flex-wrap items-center justify-between gap-4 border-b bg-white px-6 py-4 dark:bg-black">
 
-        <h2 class="font-bold text-base">
+        <h2 class="text-sm font-semibold tracking-tight sm:text-base">
             {name}
         </h2>
 
         <!-- NAVIGATION -->
-        <nav class="flex gap-5 text-xs">
-            <a href="#about">About</a>
-            <a href="#work">Work</a>
-            <a href="#contact">Contact</a>
+        <nav class="order-3 flex w-full gap-2 text-sm text-black dark:text-white sm:order-none sm:w-auto">
+            <a class="silver-nav-link rounded-sm px-2 py-1" href="#about">About</a>
+            <a class="silver-nav-link rounded-sm px-2 py-1" href="#contact">Contact</a>
         </nav>
 
         <div class="flex items-center gap-2">
@@ -32,7 +31,7 @@ const name = "Jive Miguel Dequito";
                 id="replayAnimation"
                 type="button"
                 aria-label="Replay portfolio animations"
-                class="rounded-md border border-slate-400 px-3 py-2 text-xs"
+                class="silver-button rounded-md px-3 py-2 text-xs font-medium"
             >
                 Replay animation
             </button>
@@ -40,7 +39,7 @@ const name = "Jive Miguel Dequito";
                 id="darkModeToggle"
                 type="button"
                 aria-pressed="false"
-                class="theme-toggle rounded-md border border-slate-400 px-3 py-2 text-xs"
+                class="theme-toggle silver-button rounded-md px-3 py-2 text-xs font-medium"
             >
                 <span id="themeLabel">Dark Mode</span>
             </button>

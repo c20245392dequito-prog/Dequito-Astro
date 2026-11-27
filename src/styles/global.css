@@ -2,8 +2,107 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+:root {
+    --silver-accent: #C0C0C0;
+    --silver-border: rgb(192 192 192 / 55%);
+    --pure-black: #000000;
+    --pure-white: #FFFFFF;
+}
+
 html {
     scroll-behavior: smooth;
+}
+
+.silver-button {
+    border: 1px solid var(--silver-accent);
+    background-color: var(--silver-accent);
+    color: var(--pure-black);
+    transition:
+        background-color 300ms ease,
+        border-color 300ms ease,
+        color 300ms ease,
+        transform 300ms ease;
+}
+
+.silver-button:hover {
+    transform: translateY(-3px);
+    border-color: var(--silver-accent);
+    background-color: var(--pure-black);
+    color: var(--silver-accent);
+}
+
+.silver-button:focus-visible {
+    outline: 2px solid var(--pure-black);
+    outline-offset: 3px;
+}
+
+.dark .silver-button:focus-visible {
+    outline-color: var(--silver-accent);
+}
+
+.silver-nav-link {
+    transition:
+        background-color 300ms ease,
+        color 300ms ease;
+}
+
+.silver-nav-link:hover,
+.silver-nav-link:active,
+.silver-nav-link[aria-current="location"] {
+    background-color: var(--silver-accent);
+    color: var(--pure-black);
+}
+
+.silver-nav-link:focus-visible {
+    border-radius: 0.25rem;
+    outline: 2px solid var(--pure-black);
+    outline-offset: 2px;
+}
+
+.dark .silver-nav-link:focus-visible {
+    outline-color: var(--silver-accent);
+}
+
+.silver-accent-border {
+    border-color: var(--silver-border);
+    transition: border-color 300ms ease;
+}
+
+.silver-accent-border:hover {
+    border-color: var(--silver-accent);
+}
+
+.silver-accent-border:focus-visible {
+    outline: 2px solid var(--pure-black);
+    outline-offset: 2px;
+}
+
+.dark .silver-accent-border:focus-visible {
+    outline-color: var(--silver-accent);
+}
+
+.silver-chip {
+    border: 1px solid var(--silver-accent);
+    background-color: var(--silver-accent);
+    color: var(--pure-black);
+}
+
+.silver-field {
+    border-color: var(--silver-border);
+    transition:
+        border-color 300ms ease,
+        box-shadow 300ms ease;
+}
+
+.silver-field:focus-visible {
+    border-color: var(--pure-black);
+    outline: 2px solid var(--pure-black);
+    outline-offset: 2px;
+}
+
+.dark .silver-field:focus-visible {
+    border-color: var(--silver-accent);
+    outline-color: var(--silver-accent);
 }
 
 .scroll-progress {
@@ -12,85 +111,53 @@ html {
     z-index: 100;
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, #0ea5e9, #8b5cf6);
+    background: var(--silver-accent);
     transform: scaleX(0);
     transform-origin: left center;
     pointer-events: none;
 }
 
 .portfolio-reveal > header {
-    animation: portfolio-blur-reveal 700ms ease-out both;
+    animation: portfolio-fade-in 500ms ease-out both;
 }
 
 .portfolio-reveal > main {
-    animation: portfolio-blur-reveal 900ms ease-out 120ms both;
+    animation: portfolio-fade-in 600ms ease-out 100ms both;
 }
 
 .portfolio-reveal > footer {
-    animation: portfolio-blur-reveal 700ms ease-out 240ms both;
+    animation: portfolio-fade-in 500ms ease-out 200ms both;
 }
 
 [data-reveal].will-reveal {
     opacity: 0;
-    filter: blur(12px);
-    transform:
-        translate3d(var(--puzzle-x, 0), var(--puzzle-y, 28px), 0)
-        rotate(var(--puzzle-rotation, 0deg))
-        scale(0.9);
+    transform: translateY(12px);
     transition:
-        opacity 850ms ease,
-        filter 850ms ease,
-        transform 950ms cubic-bezier(0.16, 1, 0.3, 1);
+        opacity 500ms ease,
+        transform 500ms ease;
 }
 
 [data-reveal].will-reveal.is-visible {
     opacity: 1;
-    filter: blur(0);
-    transform: translate3d(0, 0, 0) rotate(0) scale(1);
+    transform: translateY(0);
 }
 
 [data-reveal="card"].is-visible {
     transition:
-        opacity 750ms ease,
-        filter 750ms ease,
-        transform 950ms cubic-bezier(0.16, 1, 0.3, 1),
-        box-shadow 250ms ease,
-        border-color 250ms ease;
+        opacity 500ms ease,
+        transform 500ms ease,
+        border-color 200ms ease;
 }
 
-[data-reveal="card"].is-visible:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 18px 38px rgb(15 23 42 / 12%);
-}
-
-.theme-toggle {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-}
-
-.theme-toggle--flip {
-    animation: theme-button-flip 500ms ease;
-}
-
-@keyframes portfolio-blur-reveal {
+@keyframes portfolio-fade-in {
     from {
-        opacity: 0.35;
-        filter: blur(12px);
+        opacity: 0;
+        transform: translateY(8px);
     }
 
     to {
         opacity: 1;
-        filter: blur(0);
-    }
-}
-
-@keyframes theme-button-flip {
-    50% {
-        transform: perspective(400px) rotateX(90deg);
-    }
-
-    to {
-        transform: perspective(400px) rotateX(0);
+        transform: translateY(0);
     }
 }
 
@@ -101,15 +168,13 @@ html {
 
     .portfolio-reveal > header,
     .portfolio-reveal > main,
-    .portfolio-reveal > footer,
-    .theme-toggle--flip {
+    .portfolio-reveal > footer {
         animation: none;
     }
 
     [data-reveal].will-reveal,
     [data-reveal="card"].is-visible {
         opacity: 1;
-        filter: none;
         transform: none;
         transition: none;
     }
